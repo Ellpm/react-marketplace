@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import { connect } from "react-redux";
+import {Switch, Route} from "react-router-dom";
+import {getBeerSaga} from './redux/action'
+import Home from "./pages/Home";
+import Header from "./pages/Header";
+import Footer from "./pages/Footer";
+import preloader from "./assets/images/preloader.svg";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  componentDidMount() {
+    this.props.getBeerSaga();
+  }
+  render() {
+    if (this.props.isFetching) {
+      return (
+        <>
+          <Header />  
+            <Switch>              
+              <Route exact path={"/"} component={Home} />
+            </Switch>
+            <Footer />
+        </>
+      );
+    } else {
+      return <img src={preloader} alt="...loading" />;
+    }
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  beer: state.beer,
+  isFetching: state.isFetching,
+});
+
+const mapDispatchToProps = {
+  getBeerSaga,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(App);
