@@ -1,0 +1,12 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  letter-spacing: 1px;
+  height: 4em;
+  padding: 2em 10%;
+  background: #2c3e50;
+  color: #fff;
+}
+div {
+  font-size:25px;
+}
